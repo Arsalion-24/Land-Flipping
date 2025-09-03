@@ -1,0 +1,74 @@
+version: "3.9"
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: landflip
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+
+  api:
+    build:
+      context: ../landflip-backend
+    env_file:
+      - ../landflip-backend/.env.example
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "18000:8000"
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ../landflip-backend
+    env_file:
+      - ../landflip-backend/.env.example
+    command: ["celery", "-A", "app.celery_app", "worker", "--loglevel=info"]
+    depends_on:
+      - redis
+      - api
+    restart: unless-stopped
+
+  beat:
+    build:
+      context: ../landflip-backend
+    env_file:
+      - ../landflip-backend/.env.example
+    command: ["celery", "-A", "app.celery_app", "beat", "--loglevel=info"]
+    depends_on:
+      - redis
+      - api
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ../landflip-frontend
+      args:
+        - VITE_API_BASE=http://api:8000
+    depends_on:
+      - api
+    ports:
+      - "15173:80"
+    restart: unless-stopped
+
+  docuseal:
+    image: docuseal/docuseal:latest
+    environment:
+      - SECRET_KEY=changeme
+    ports:
+      - "33000:3000"
+    restart: unless-stopped
+
+volumes:
+  db_data:

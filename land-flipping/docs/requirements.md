@@ -1,0 +1,29 @@
+# Requirements Summary
+
+- Ingestion
+  - CSV/XLSX upload (manual/scheduled) with auto-column mapping.
+  - Shapefile ETL via GeoPandas/GDAL; import polygons into PostGIS (SRID 4326); auto bounding boxes.
+  - Geocoding via Nominatim; address normalization.
+- Enrichment
+  - Contact enrichment via open sources; fuzzy-match owners; normalize phones/emails.
+  - Lead scoring via simple heuristic and extensible ML (scikit-learn).
+- Outreach
+  - Email outreach via SMTP relay; store all interactions in CRM.
+  - Optional WhatsApp/SMS/dialer integrations via adapters/webhooks.
+  - Campaign management dashboard with status tracking and metrics.
+- Negotiation & CRM
+  - CRM linking parcel→owner→contacts→campaigns; pipeline statuses; timeline per parcel.
+  - AI assistant hooks for scripts (future) and summaries.
+- Contracts & Assignment
+  - Markdown→PDF contract generation with dynamic fields.
+  - Open-source e-sign (DocuSeal) integration; encrypted storage planned.
+- Auction & Closing
+  - Auction source monitor + alerts; parse results to update status.
+  - Closing tracker (future) with checklist.
+- Cross-cutting
+  - MapLibre GL JS parcel mapping and filters.
+  - ML valuation (prototype) with offer suggestions.
+  - Multi-country adapters (US, NG examples).
+  - Security: JWT-ready, audit logs, optional column-level encryption for PII.
+- Tech stack
+  - PostgreSQL + PostGIS; FastAPI; Celery + Redis + Beat; React + Tailwind + MapLibre; GeoPandas, scikit-learn; Docker Compose; DocuSeal.

@@ -1,0 +1,3 @@
+parcel_id,apn,owner_name,county,state,country,acreage,address,geom_wkt,status
+P-1001,123-45-678,John Doe,Maricopa,AZ,US,2.5,123 Desert Rd,POLYGON((-112.0 33.0,-112.0 33.01,-111.99 33.01,-111.99 33.0,-112.0 33.0)),lead
+P-1002,987-65-432,Jane Smith,Travis,TX,US,10,456 Ranch St,POLYGON((-97.8 30.3,-97.8 30.31,-97.79 30.31,-97.79 30.3,-97.8 30.3)),contacted
