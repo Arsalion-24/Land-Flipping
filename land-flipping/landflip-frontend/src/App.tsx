@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
-const API = (import.meta.env.VITE_API_BASE as string) || "http://localhost:8000";
+const API = (import.meta.env.VITE_API_BASE as string) || "/api";
 
 type Parcel = {
   id: number;
